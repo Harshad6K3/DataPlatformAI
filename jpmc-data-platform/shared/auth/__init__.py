@@ -1,3 +1,15 @@
-"""Authentication helpers for shared services."""
+"""Authentication helpers for shared services.
 
-__all__ = ["JWTSettings", "JWTMiddleware", "create_access_token", "decode_token", "get_current_user"]
+This package exposes a production-grade FastAPI authentication
+middleware, JWKS client, Redis-backed rate limiter, and helpers
+for mock/local development.
+"""
+
+__all__ = [
+	"AuthenticatedUser",
+	"JWTAuthMiddleware",
+	"get_current_user",
+	"JWKSClient",
+	"RedisRateLimiter",
+	"parse_mock_user",
+]
