@@ -1,15 +1,12 @@
-"""Authentication helpers for shared services.
+# d:\DataPlatformAI\DataPlatformAI\jpmc-data-platform\shared\auth\__init__.py
+"""Authentication helpers for shared services."""
 
-This package exposes a production-grade FastAPI authentication
-middleware, JWKS client, Redis-backed rate limiter, and helpers
-for mock/local development.
-"""
+from .dependencies import get_current_user
+from .middleware import JWTAuthMiddleware
+from .models import AuthenticatedUser
 
 __all__ = [
-	"AuthenticatedUser",
-	"JWTAuthMiddleware",
-	"get_current_user",
-	"JWKSClient",
-	"RedisRateLimiter",
-	"parse_mock_user",
+    "AuthenticatedUser",
+    "JWTAuthMiddleware",
+    "get_current_user",
 ]

@@ -1,0 +1,17 @@
+# shared/claude-client/pyproject.toml
+[tool.poetry]
+name = "claude-client"
+version = "0.1.0"
+description = "Shared Anthropic Claude LLM wrapper client"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = ">=0.111.0"
+pydantic = ">=2.7.0"
+python-dotenv = ">=1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

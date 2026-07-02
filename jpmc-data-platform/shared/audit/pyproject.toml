@@ -1,0 +1,17 @@
+# shared/audit/pyproject.toml
+[tool.poetry]
+name = "audit-core"
+version = "0.1.0"
+description = "Shared audit logging core service layer"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = ">=0.111.0"
+pydantic = ">=2.7.0"
+python-dotenv = ">=1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

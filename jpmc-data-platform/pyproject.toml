@@ -1,0 +1,47 @@
+# pyproject.toml
+[tool.poetry]
+name = "python-ts-monorepo"
+version = "0.1.0"
+description = "A unified Python/TypeScript monorepo"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "shared/auth" },
+    { include = "shared/audit" },
+    { include = "shared/aws-clients" },
+    { include = "shared/claude-client" },
+    { include = "shared/db" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^5.0.0"
+ruff = "^0.4.0"
+mypy = "^1.10.0"
+black = "^24.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "ARG", "PT"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests", "shared"]
+python_files = ["test_*.py", "*_test.py"]
