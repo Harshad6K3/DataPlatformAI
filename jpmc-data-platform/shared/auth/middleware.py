@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import Request
@@ -124,7 +124,7 @@ class JWTAuthMiddleware(BaseHTTPMiddleware):
 
     def _log_payload(self, ip: Optional[str], ua: Optional[str], reason: str) -> str:
         return json.dumps({
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "ip": ip,
             "user_agent": ua,
             "reason": reason,
