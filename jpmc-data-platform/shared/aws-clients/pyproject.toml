@@ -3,7 +3,7 @@
 name = "aws-clients"
 version = "0.1.0"
 description = "Shared AWS integrations and infrastructure clients"
-authors = ["Your Name <you@example.com>"]
+authors = ["Harshad K harshadk@datasmartpro.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

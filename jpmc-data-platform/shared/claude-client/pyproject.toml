@@ -3,7 +3,7 @@
 name = "claude-client"
 version = "0.1.0"
 description = "Shared Anthropic Claude LLM wrapper client"
-authors = ["Your Name <you@example.com>"]
+authors = ["Harshad K harshadk@datasmartpro.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

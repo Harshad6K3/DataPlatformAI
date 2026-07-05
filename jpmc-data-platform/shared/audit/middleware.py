@@ -1,56 +1,56 @@
+# d:\DataPlatformAI\DataPlatformAI\jpmc-data-platform\shared\audit\middleware.py
 """FastAPI middleware for audit logging."""
 from __future__ import annotations
 
 import logging
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
 from .logger import AuditLogger
+from .models import AuditEvent
 
 logger = logging.getLogger("shared.audit.middleware")
 
-PUBLIC_PATHS = {"/health", "/ready", "/docs", "/openapi.json"}
-
 
 class AuditMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, audit_logger: AuditLogger):
+    """Wrap each request and emit an audit event after the response is produced."""
+
+    def __init__(self, app, audit_logger: AuditLogger) -> None:
         super().__init__(app)
         self.audit_logger = audit_logger
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
         request.state.request_id = request_id
-        request.state.start_time = time.perf_counter()
-        request.state.audit_request = {
-            "request_id": request_id,
-            "environment": self.audit_logger.environment,
-            "user_id": None,
-            "email": None,
-            "action": "request",
-            "resource_type": "http",
-            "resource_id": "",
-            "http_method": request.method,
-            "path": request.url.path,
-            "status_code": 0,
-            "duration_ms": 0,
-            "ip_address": request.client.host if request.client else None,
-        }
-
-        headers = dict(request.headers)
-        headers["x-request-id"] = request_id
-        request.scope["headers"] = [(k.encode(), v.encode()) for k, v in headers.items()]
-
-        if request.url.path in PUBLIC_PATHS:
-            response = await call_next(request)
-            return response
+        request.state.audit_started_at = time.perf_counter()
 
         response = await call_next(request)
-        request.state.audit_request["status_code"] = response.status_code
-        request.state.audit_request["duration_ms"] = int((time.perf_counter() - request.state.start_time) * 1000)
-        await self.audit_logger.log(request.state.audit_request)
+
+        duration_ms = round((time.perf_counter() - request.state.audit_started_at) * 1000, 2)
+        user = getattr(request.state, "user", None)
+        user_id = getattr(user, "user_id", None) or getattr(user, "id", None) or ""
+        email = getattr(user, "email", None) or ""
+
+        event = AuditEvent(
+            timestamp=datetime.now(timezone.utc),
+            request_id=request_id,
+            user_id=str(user_id),
+            email=str(email),
+            action=getattr(request.state, "audit_action", "request"),
+            resource_type="http",
+            resource_id=request.url.path,
+            http_method=request.method,
+            path=request.url.path,
+            status_code=response.status_code,
+            duration_ms=duration_ms,
+            ip_address=request.client.host if request.client else "",
+            environment=self.audit_logger.environment,
+            service=self.audit_logger.service_name,
+        )
+        await self.audit_logger.log(event)
         return response

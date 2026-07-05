@@ -3,7 +3,7 @@
 name = "python-ts-monorepo"
 version = "0.1.0"
 description = "A unified Python/TypeScript monorepo"
-authors = ["Your Name <you@example.com>"]
+authors = ["Harshad K harshadk@datasmartpro.com"]
 readme = "README.md"
 packages = [
     { include = "shared/auth" },

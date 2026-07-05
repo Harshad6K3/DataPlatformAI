@@ -27,7 +27,7 @@ class S3Sink:
         if self._upload_task is None:
             self._upload_task = asyncio.create_task(self._periodic_flush())
         async with self._lock:
-            self.events.append(json.loads(event.json()))
+            self.events.append(json.loads(event.model_dump_json()))
 
     async def _periodic_flush(self) -> None:
         while True:

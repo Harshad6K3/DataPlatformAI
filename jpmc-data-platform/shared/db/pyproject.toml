@@ -3,7 +3,7 @@
 name = "db-core"
 version = "0.1.0"
 description = "Shared database configuration, models, and session management"
-authors = ["Your Name <you@example.com>"]
+authors = ["Harshad K harshadk@datasmartpro.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

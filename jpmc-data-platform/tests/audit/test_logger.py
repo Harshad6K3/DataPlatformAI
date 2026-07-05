@@ -14,7 +14,7 @@ class DummySink:
         self.events = []
 
     async def log(self, event: AuditEvent) -> None:
-        self.events.append(event.json())
+        self.events.append(event.model_dump_json())
 
 
 @pytest.mark.asyncio

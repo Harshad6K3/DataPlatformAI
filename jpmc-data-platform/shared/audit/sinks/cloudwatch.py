@@ -21,7 +21,7 @@ class CloudWatchSink:
         return f"{self.service_name}-{datetime.utcnow().date().isoformat()}"
 
     async def log(self, event: Any) -> None:
-        message = event.json()
+        message = event.model_dump_json()
         try:
             self.client.create_log_group(logGroupName=self.log_group)
         except self.client.exceptions.ResourceAlreadyExistsException:

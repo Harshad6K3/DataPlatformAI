@@ -1,7 +1,6 @@
+# d:\DataPlatformAI\DataPlatformAI\jpmc-data-platform\shared\audit\sinks\__init__.py
 """Audit sinks package."""
 
-from .cloudwatch import CloudWatchSink
-from .s3 import S3Sink
 from .stdout import StdoutSink
 
-__all__ = ["CloudWatchSink", "S3Sink", "StdoutSink"]
+__all__ = ["StdoutSink"]

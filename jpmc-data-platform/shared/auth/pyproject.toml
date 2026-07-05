@@ -3,7 +3,7 @@
 name = "auth-core"
 version = "0.1.0"
 description = "Shared authentication core service layer"
-authors = ["Your Name <you@example.com>"]
+authors = ["Harshad K harshadk@datasmartpro.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
