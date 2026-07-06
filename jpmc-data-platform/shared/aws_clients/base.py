@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
 import os
 import time
@@ -66,7 +67,10 @@ class BaseAWSClient:
 
         for attempt in range(retries):
             try:
-                return await operation_func(*args, **kwargs)
+                result = operation_func(*args, **kwargs)
+                if inspect.isawaitable(result):
+                    result = await result
+                return result
             except ClientError as exc:
                 last_error = exc
                 error_code = exc.response.get("Error", {}).get("Code")

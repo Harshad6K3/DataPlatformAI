@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 import os
 from typing import Any, Optional
 
@@ -29,7 +30,10 @@ class S3Client(BaseAWSClient):
             body = response.get("Body")
             if body is None:
                 return b""
-            return await body.read()
+            read_result = body.read()
+            if inspect.isawaitable(read_result):
+                return await read_result
+            return read_result
 
     async def put_object(self, bucket: str, key: str, body: bytes, content_type: str) -> None:
         """Upload bytes to S3."""
