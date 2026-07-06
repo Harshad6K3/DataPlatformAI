@@ -1,13 +1,7 @@
-"""Typed AWS client exceptions."""
+"""Compatibility wrapper exposing the shared AWS client exceptions."""
+
 from __future__ import annotations
 
-from typing import Optional
+from shared.aws_clients.exceptions import AWSClientError
 
-
-class AWSClientError(Exception):
-    def __init__(self, service: str, operation: str, message: str, status_code: Optional[int] = None):
-        self.service = service
-        self.operation = operation
-        self.message = message
-        self.status_code = status_code
-        super().__init__(f"{service}.{operation}: {message}")
+__all__ = ["AWSClientError"]

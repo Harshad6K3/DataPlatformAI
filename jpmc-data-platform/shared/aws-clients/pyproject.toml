@@ -11,7 +11,14 @@ python = "^3.12"
 fastapi = ">=0.111.0"
 pydantic = ">=2.7.0"
 python-dotenv = ">=1.0.0"
+aioboto3 = "^15.5.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-asyncio (>=1.4.0,<2.0.0)",
+    "moto (>=5.2.2,<6.0.0)"
+]
