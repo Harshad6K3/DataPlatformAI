@@ -36,12 +36,15 @@ class AuditMiddleware(BaseHTTPMiddleware):
         user_id = getattr(user, "user_id", None) or getattr(user, "id", None) or ""
         email = getattr(user, "email", None) or ""
 
+        audit_request = getattr(request.state, "audit_request", None) or {}
+        action = getattr(request.state, "audit_action", None) or audit_request.get("action", "request")
+
         event = AuditEvent(
             timestamp=datetime.now(timezone.utc),
             request_id=request_id,
             user_id=str(user_id),
             email=str(email),
-            action=getattr(request.state, "audit_action", "request"),
+            action=str(action),
             resource_type="http",
             resource_id=request.url.path,
             http_method=request.method,

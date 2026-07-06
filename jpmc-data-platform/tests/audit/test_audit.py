@@ -5,9 +5,10 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 
+from shared.audit.decorators import audit_action
 from shared.audit.logger import AuditLogger
 from shared.audit.middleware import AuditMiddleware
 from shared.audit.redaction import redact
@@ -78,3 +79,32 @@ def test_audit_middleware_adds_request_id_to_every_request() -> None:
 
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
+
+
+def test_audit_action_decorator_sets_action_for_middleware() -> None:
+    """The decorator should provide the action name that middleware logs."""
+
+    class RecordingSink:
+        def __init__(self) -> None:
+            self.events: list[Any] = []
+
+        async def log(self, event: Any) -> None:
+            self.events.append(event)
+
+    app = FastAPI()
+    sink = RecordingSink()
+    logger = AuditLogger(service_name="test-service", sinks=[sink])
+
+    @app.get("/health")
+    @audit_action("dataset.read")
+    async def health(request: Request) -> dict[str, str]:
+        assert request.state.audit_action == "dataset.read"
+        return {"status": "ok"}
+
+    app.add_middleware(AuditMiddleware, audit_logger=logger)
+
+    with TestClient(app) as client:
+        response = client.get("/health")
+
+    assert response.status_code == 200
+    assert sink.events[0].action == "dataset.read"
