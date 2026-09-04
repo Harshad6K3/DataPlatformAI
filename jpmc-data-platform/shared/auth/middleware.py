@@ -1,4 +1,3 @@
-# d:\DataPlatformAI\DataPlatformAI\jpmc-data-platform\shared\auth\middleware.py
 """FastAPI middleware implementing JWT authentication."""
 from __future__ import annotations
 
@@ -36,6 +35,9 @@ class JWTAuthMiddleware(BaseHTTPMiddleware):
         self.jwks_client = JWKSClient(self.jwks_url) if self.jwks_url else None
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint):
+        # Default: no user
+        request.state.user = None
+
         path = request.url.path
         if path in PUBLIC_PATHS or request.method.upper() == "OPTIONS":
             return await call_next(request)
@@ -114,7 +116,9 @@ class JWTAuthMiddleware(BaseHTTPMiddleware):
             email=str(email),
             roles=list(roles),
             domains=list(domains),
-            is_service_account=bool(decoded.get("client_id") or decoded.get("azp")) and not bool(email),
+            is_service_account=bool(
+                decoded.get("client_id") or decoded.get("azp")
+            ) and not bool(email),
         )
 
         return await call_next(request)

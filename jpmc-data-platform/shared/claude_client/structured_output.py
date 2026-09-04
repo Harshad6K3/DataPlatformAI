@@ -25,7 +25,7 @@ class StructuredOutputHelper:
             try:
                 response = await self.client.complete(prompt, **kwargs)
                 payload = self._extract_json(response)
-                return output_model.parse_obj(payload)
+                return output_model.model_validate(payload)
             except (json.JSONDecodeError, ValidationError) as exc:
                 logger.warning("Structured output parse/validation failed", extra={"attempt": attempt, "error": str(exc)})
                 last_error = exc

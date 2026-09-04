@@ -1,0 +1,1 @@
+PS D:\AICodingFactory\projects\DataPlatformAI\DataPlatformAI\jpmc-data-platform> dir -Recurse | Where-Object { $_.FullName -notmatch 'node_modules|\.git|__pycache__|\.venv' } | Select-Object -ExpandProperty FullName; type pyproject.toml; type docker-compose.yml; type README.md

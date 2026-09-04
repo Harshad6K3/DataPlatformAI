@@ -8,6 +8,7 @@ from .models import AuditEvent
 from .redaction import redact, redact_dict
 from .sinks.stdout import StdoutSink
 
+
 __all__ = [
     "AuditLogger",
     "AuditMiddleware",
@@ -17,3 +18,4 @@ __all__ = [
     "redact_dict",
     "StdoutSink",
 ]
+

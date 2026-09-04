@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import re
-from datetime import datetime
+from datetime import datetime, timezone
+datetime.now(timezone.utc)
 from typing import Any, Dict, List, Optional, Tuple
 
 from .models import SanitisationRecord
