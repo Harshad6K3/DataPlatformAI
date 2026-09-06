@@ -22,7 +22,8 @@ build/
 .terraform/
 *.tfstate
 *.tfstate.backup
-.terraform.lock.hcl
+infrastructure/**/terraform.tfvars
+infrastructure/**/terraform.tfvars.json
 
 # IDE
 .vscode/settings.json

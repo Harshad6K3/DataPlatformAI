@@ -1,0 +1,2 @@
+export const colors = { navy: "#0A1628", accent: "#1E6FD9", surface: "#F5F7FA", border: "#E2E8F0" } as const;
+export const fonts = { ui: "Inter, sans-serif", data: "JetBrains Mono, monospace" } as const;

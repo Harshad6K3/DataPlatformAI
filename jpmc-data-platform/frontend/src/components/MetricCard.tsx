@@ -1,0 +1,3 @@
+export function MetricCard({ label, value, trend, trendUp }: { label: string; value: string; trend?: string; trendUp?: boolean }) {
+  return <article className="border border-border bg-white p-5 shadow-sm"><p className="text-sm font-medium text-slate-500">{label}</p><p className="mt-3 font-mono text-3xl font-semibold text-navy">{value}</p>{trend && <p className={`mt-3 text-xs font-semibold ${trendUp ? "text-emerald-600" : "text-slate-500"}`}>{trend}</p>}</article>;
+}

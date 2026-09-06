@@ -1,0 +1,13 @@
+aws_region = "us-east-1"
+environment = "dev"
+secret_names = ["ANTHROPIC_API_KEY", "DATABASE_URL", "REDIS_URL"]
+
+# Supply real values through a protected, uncommitted terraform.tfvars file
+# or CI/CD variables. Do not commit this file after adding secrets.
+secret_values = {
+  ANTHROPIC_API_KEY = "REPLACE_ME"
+  DATABASE_URL      = "REPLACE_ME"
+  REDIS_URL         = "REPLACE_ME"
+}
+
+trusted_services = ["ecs-tasks.amazonaws.com"]
